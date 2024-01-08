@@ -1,9 +1,8 @@
-version: '3.3'
 services:
   pufferpanel:
-    image:  pufferpanel/pufferpanel:latest
-    container_name: pufferpanel
-    restart: on-failure
+    image: "pufferpanel/pufferpanel:latest"
+    container_name: "pufferpanel"
+    restart: "on-failure"
     environment:
       - 'PUFFER_LOGS=/etc/pufferpanel/logs' # Location of your logs
       - 'PUFFER_PANEL_DATABASE_DIALECT=sqlite3' # Databse type https://docs.pufferpanel.com/en/2.x/guides/database.html
@@ -13,10 +12,14 @@ services:
       - 'PUFFER_DAEMON_DATA_MODULES=/var/lib/pufferpanel/modules' # Location for Modules within the container
     volumes:
       - '/data/pufferpanel/config:/etc/pufferpanel' # Config/logs folder
-      - '/var/lib/pufferpanel:/var/lib/pufferpanel' # Data folder
+      - '/data/pufferpanel:/var/lib/pufferpanel' # Data folder  
+      - '/data/pufferpanel/servers:/var/lib/pufferpanel/servers' # Servers folder  
+      - '/data/pufferpanel/binaries:/var/lib/pufferpanel/binaries' # Binaries folder   
+      - '/data/pufferpanel/modules:/var/lib/pufferpanel/modules' # Modules folder /servers /binaries  
+      - '/data/pufferpanel/logs:/etc/pufferpanel/logs' # Pufferpanel logs folder
       - '/var/run/docker.sock:/var/run/docker.sock' # Docker socket
     ports:
-      - "192.168.251.203:8080":'8080' # Panel port
-      - "192.168.251.203:5657":'5657' # SFTP port
-      - "192.168.251.203:27015":'27015' # Default SRCDS port
-      - "192.168.251.203:25565":'25565' # Default Minecraft Java port
+      - "192.168.251.203:8080:8080" # Panel port
+      - "192.168.251.203:5657:5657" # SFTP port
+      - "192.168.251.203:27015:27015" # Default SRCDS port
+      - "192.168.251.203:25565:25565" # Default Minecraft port
